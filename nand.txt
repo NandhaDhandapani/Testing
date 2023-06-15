@@ -1,0 +1,1420 @@
+package selenium;
+import java.net.URL;
+import java.net.MalformedURLException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+public class App
+{
+    public static void main( String[] args ) throws MalformedURLException
+    {
+        RemoteWebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.makemytrip.com");
+        driver.manage().window().maximize();
+        testOneWayFlightSearch("OriginAirportCode", "DestinationAirportCode", "2023-06-15", 1);
+        testRoundTripFlightSearch("OriginAirportCode", "DestinationAirportCode", "2023-06-15", "2023-06-20", 2);
+        testMultiCityFlightSearch("OriginAirportCode1", "DestinationAirportCode1", "2023-06-15", "OriginAirportCode2", "DestinationAirportCode2", "2023-06-20", 3);
+        driver.quit();
+    }
+    public static void testOneWayFlightSearch(String origin, String destination, String departureDate, int numPassengers) {
+        openWebsite("https://www.makemytrip.com");
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+        enterOriginAndDestination(origin, destination);
+        enterDepartureDate(departureDate);
+        enterPassengerCount(numPassengers);
+        clickSearchButton();
+        verifyFlightDetails();
+    }
+    public static void testRoundTripFlightSearch(String origin, String destination, String departureDate, String returnDate, int numPassengers) {
+        driver.get("https://www.makemytrip.com");
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+        enterOriginAndDestination(origin, destination);
+        enterDepartureDate(departureDate);
+        enterPassengerCount(numPassengers);
+        enterReturnDate(returnDate);
+        clickSearchButton();
+        verifyFlightDetails();
+    }
+   
+    public static void testMultiCityFlightSearch(String origin1, String destination1, String departureDate1, String origin2, String destination2, String departureDate2, int numPassengers) {
+            driver.get("https://www.makemytrip.com");
+            String pageTitle = driver.getTitle();
+            System.out.println("Page Title: " + pageTitle);
+            enterOriginAndDestination1(origin1, destination1);
+            enterDepartureDate1(departureDate1);
+            enterOriginAndDestination2(origin2, destination2);
+            enterDepartureDate1(departureDate2);
+            enterPassengerCount(numPassengers);
+            clickSearchButton();
+            verifyFlightDetails();
+        }
+       
+        public static void openWebsite(String url) {
+            driver.get(url);
+        }
+       
+        public static void enterOriginAndDestination(String origin, String destination) {
+            WebElement originInput = driver.findElement(By.id("fromCity"));
+            originInput.clear();
+            originInput.sendKeys(origin);
+       
+            WebElement destinationInput = driver.findElement(By.id("toCity"));
+            destinationInput.sendKeys(destination);
+        }
+       
+        public static void enterDepartureDate(String departureDate) {
+            WebElement departureDateInput = driver.findElement(By.xpath("//input[@aria-label='Departure']"));
+            departureDateInput.clear();
+            departureDateInput.sendKeys(departureDate);
+        }
+       
+        public static void enterPassengerCount(int numPassengers) {
+            WebElement passengerCountDropdown = driver.findElement(By.id("travellers"));
+            passengerCountDropdown.click();
+       
+            WebElement passengerCountInput = driver.findElement(By.xpath("//li[@data-cy='adults-1']//button[@data-cy='addRoom']"));
+            for (int i = 1; i < numPassengers; i++) {
+                passengerCountInput.click();
+            }
+        }
+       
+        public static void clickSearchButton() {
+            WebElement searchButton = driver.findElement(By.xpath("//a[contains(@class,'primaryBtn')]"));
+            searchButton.click();
+        }
+       
+        public static void verifyFlightDetails() {
+            
+        }
+}
+------------------
+2.
+package selenium;
+import java.net.URL;
+import java.net.MalformedURLException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+public class App
+{
+    public static void main( String[] args ) throws MalformedURLException
+
+    {
+        RemoteWebDriver driver;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+
+        //one-way flight
+        driver.navigate().to("https://www.makemytrip.com/");
+        driver.findElement(By.xpath("//*[@id='SW']/div[1]/div[2]/div/div/nav/ul/li[1]/div/a/span[2]")).click();
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[1]/ul/li[1]")).click();
+        driver.findElement(By.xpath("//*[@id='fromCity']")).sendKeys("Delhi");
+        driver.findElement(By.xpath("//*[@id='toCity']")).sendKeys("Mumbai");
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[2]/div[1]/div[3]/label")).sendKeys(15/6/2023);
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[2]/div[1]/div[5]/label")).click();
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[2]/div[1]/div[5]/div[1]/div[1]/ul[1]/li[4]")).click();
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[2]/p/a")).click();
+
+        //round-trip flight
+        driver.navigate().to("https://www.makemytrip.com/");
+        driver.findElement(By.xpath("//*[@id='root']/div/div[2]/div/div/div[1]/ul/li[2]")).click();
+        WebElement originInput = driver.findElement(By.id("origin"));
+    originInput.sendKeys("OriginAirport");
+
+    WebElement destinationInput = driver.findElement(By.id("destination"));
+    destinationInput.sendKeys("DestinationAirport");
+
+    WebElement departureDateInput = driver.findElement(By.id("departure-date"));
+    departureDateInput.sendKeys("2023-06-13");
+
+    WebElement returnDateInput = driver.findElement(By.id("return-date"));
+    returnDateInput.sendKeys("2023-06-20");
+
+    WebElement passengersInput = driver.findElement(By.id("passengers"));
+    passengersInput.clear();
+    passengersInput.sendKeys("2");
+
+    WebElement searchButton = driver.findElement(By.id("search-button"));
+    searchButton.click();
+   
+
+    //multi-city
+    driver.get("https://www.makemytrip.com/");
+
+    WebElement multiCityTab = driver.findElement(By.xpath("//li[@data-cy='mulitiCityTrip']"));
+    multiCityTab.click();
+
+    WebElement fromInput1 = driver.findElement(By.id("fromCity1"));
+    fromInput1.clear();
+    fromInput1.sendKeys("OriginAirport1");
+    WebElement originOption1 = driver.findElement(By.xpath("//input[@value='BLR']")); // Replace 'BLR' with the appropriate value for your origin airport of the first leg
+    originOption1.click();
+
+    WebElement toInput1 = driver.findElement(By.id("toCity1"));
+    toInput1.clear();
+    toInput1.sendKeys("DestinationAirport1");
+    WebElement destinationOption1 = driver.findElement(By.xpath("//input[@value='DEL']"));
+
+    // verify search results
+    WebElement searchButton = driver.findElement(By.xpath("//a[@data-cy='search']"));
+    searchButton.click();
+    WebElement flightDetails = driver.findElement(By.xpath("//div[@class='fli-list one-way']/div[@class='fli-intl-lhs-col']"));
+
+    WebElement flightNumberElement = flightDetails.findElement(By.xpath(".//span[@class='fli-code']"));
+    String flightNumber = flightNumberElement.getText();
+    assertEquals("Expected Flight Number", "YourExpectedFlightNumber", flightNumber);
+
+    WebElement departureTimeElement = flightDetails.findElement(By.xpath(".//div[@class='dept-time']"));
+    String departureTime = departureTimeElement.getText();
+    assertEquals("Expected Departure Time", "YourExpectedDepartureTime", departureTime);
+
+    WebElement arrivalTimeElement = flightDetails.findElement(By.xpath(".//div[@class='reaching-time']"));
+    String arrivalTime = arrivalTimeElement.getText();
+    assertEquals("Expected Arrival Time", "YourExpectedArrivalTime", arrivalTime);
+
+    WebElement priceElement = flightDetails.findElement(By.xpath(".//span[@class='actual-price']"));
+    String totalPrice = priceElement.getText();
+    assertEquals("Expected Total Price", "YourExpectedTotalPrice", totalPrice);
+
+    //verify sorting
+    WebElement searchButton = driver.findElement(By.xpath("//a[@data-cy='search']"));
+    searchButton.click();
+
+    WebElement sortDropdown = driver.findElement(By.xpath("//div[@class='sort-grp']//select[@data-cy='sortDropdown']"));
+    Select sortSelect = new Select(sortDropdown);
+    sortSelect.selectByValue("price:asc");
+    List<WebElement> priceElements = driver.findElements(By.xpath("//div[@class='actual-price']"));
+    List<Integer> prices = new ArrayList<>();
+    for (WebElement priceElement : priceElements) {
+        String priceText = priceElement.getText().replaceAll("[^0-9]", "");
+        prices.add(Integer.parseInt(priceText));
+    }
+    List<Integer> sortedPrices = new ArrayList<>(prices);
+    Collections.sort(sortedPrices);
+    assertEquals("Sorting by price in ascending order", sortedPrices, prices);
+
+    sortSelect.selectByValue("departure:asc");
+    List<WebElement> departureTimeElements = driver.findElements(By.xpath("//div[@class='dept-time']"));
+    List<String> departureTimes = new ArrayList<>();
+    for (WebElement departureTimeElement : departureTimeElements) {
+        departureTimes.add(departureTimeElement.getText());
+    }
+    List<String> sortedDepartureTimes = new ArrayList<>(departureTimes);
+    Collections.sort(sortedDepartureTimes);
+    assertEquals("Sorting by departure time in ascending order", sortedDepartureTimes, departureTimes);
+
+    // Sort by arrival time
+    sortSelect.selectByValue("arrival:asc");
+    List<WebElement> arrivalTimeElements = driver.findElements(By.xpath("//div[@class='reaching-time']"));
+    List<String> arrivalTimes = new ArrayList<>();
+    for (WebElement arrivalTimeElement : arrivalTimeElements) {
+        arrivalTimes.add(arrivalTimeElement.getText());
+    }
+    List<String> sortedArrivalTimes = new ArrayList<>(arrivalTimes);
+    Collections.sort(sortedArrivalTimes);
+    assertEquals("Sorting by arrival time in ascending order", sortedArrivalTimes, arrivalTimes);
+
+    sortSelect.selectByValue("duration:asc");
+    List<WebElement> durationElements = driver.findElements(By.xpath("//div[@class='fli-list-body-section clearfix']//span[@class='dur']/span"));
+    List<String> durations = new ArrayList<>();
+    for (WebElement durationElement : durationElements) {
+        durations.add(durationElement.getText());
+    }
+    List<String> sortedDurations = new ArrayList<>(durations);
+    Collections.sort(sortedDurations);
+    assertEquals("Sorting by flight duration in ascending order", sortedDurations, durations);
+
+    WebElement searchButton = driver.findElement(By.xpath("//a[@data-cy='search']"));
+    searchButton.click();
+
+
+    WebElement airlineFilter = driver.findElement(By.xpath("//ul[@data-cy='airlinesFilter']//input[@value='airlineCode']"));
+    airlineFilter.click();
+
+    List<WebElement> airlineElements = driver.findElements(By.xpath("//div[@class='pane-block airlines-info']//span[@class='blue-text']"));
+    for (WebElement airlineElement : airlineElements) {
+        String airlineName = airlineElement.getText();
+        assertEquals("Expected Airline", "YourExpectedAirline", airlineName);
+    }
+
+    WebElement stopsFilter = driver.findElement(By.xpath("//ul[@data-cy='stopsFilter']//input[@value='2']"));
+    stopsFilter.click();
+
+    List<WebElement> stopElements = driver.findElements(By.xpath("//div[@class='pane-block stops-info']"));
+    for (WebElement stopElement : stopElements) {
+        String stopCount = stopElement.getText().replaceAll("[^0-9]", "");
+        assertEquals("Expected Stops Count", "2", stopCount);
+    }
+
+    WebElement departureTimeFilter = driver.findElement(By.xpath("//ul[@data-cy='departureTimeFilter']//input[@value='DEPARTURE_TIME_RANGE']"));
+    departureTimeFilter.click();
+
+
+}
+}
+------------------------
+3.
+package selenium;
+
+import java.net.URL;
+
+import java.net.MalformedURLException;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebElement;
+
+public class App
+
+{
+
+    public static void main( String[] args ) throws MalformedURLException
+
+    {
+
+     
+
+        RemoteWebDriver driver;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+
+        //To Login
+        driver.navigate().to("https://www.facebook.com");
+        driver.manage().window().maximize();
+        String s1=
+        driver.findElement(By.xpath("//*[@id='email']")).sendKeys("727821tucs124@skct.edu.in");
+        driver.findElement(By.xpath("//*[@id='pass']")).sendKeys("mathurk@0310");
+        driver.findElement(By.xpath("//*[@id='u_0_9_VA']")).click();
+
+        //profile creation
+        driver.get("https://www.facebook.com");
+        driver.findElement(By.id("u_0_2")).click();
+        driver.findElement(By.name("firstname")).sendKeys("John");
+        driver.findElement(By.name("lastname")).sendKeys("Doe");
+        driver.findElement(By.name("reg_email__")).sendKeys("john.doe@example.com");
+        driver.findElement(By.name("reg_passwd__")).sendKeys("password123");
+
+
+        //verify profile creation
+        driver.get("https://www.facebook.com");
+        driver.findElement(By.id("u_0_2")).click();
+        driver.findElement(By.name("firstname")).sendKeys("Jane");
+        driver.findElement(By.name("lastname")).sendKeys("Smith");
+        driver.findElement(By.name("reg_email__")).sendKeys("jane.smith@example.com");
+
+        //post creation
+        driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+        driver.findElement(By.id("pass")).sendKeys("your_password");
+        driver.findElement(By.name("login")).click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+       
+        WebElement postInputFiel
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement createdPost = driver.findElement(By.xpath("//div[contains(text(), 'This is my test post!')]"));
+        if (createdPost.isDisplayed()) {
+            System.out.println("Post creation test passed!");
+        } else {
+            System.out.println("Post creation test failed!");
+        }
+    }
+}
+
+driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+driver.findElement(By.id("pass")).sendKeys("your_password");
+driver.findElement(By.name("login")).click();
+
+// Wait for the home page to load
+try {
+    Thread.sleep(2000); // You may need to adjust the wait time based on your network speed
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+// Find and interact with the search input field
+WebElement searchInputField = driver.findElement(By.xpath("//input[@aria-label='Search']"));
+searchInputField.sendKeys("John Doe");
+
+// Submit the search
+searchInputField.submit();
+
+// Wait for the search results to load
+try {
+    Thread.sleep(2000); // You may need to adjust the wait time based on your network speed
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+// Assert that the search results display the expected user
+WebElement searchResult = driver.findElement(By.xpath("//a[contains(text(), 'John Doe')]"));
+if (searchResult.isDisplayed()) {
+    System.out.println("User search test passed!");
+} else {
+    System.out.println("User search test failed!");
+}
+}
+
+
+driver.get("https://www.facebook.com");
+driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+driver.findElement(By.id("pass")).sendKeys("your_password");
+driver.findElement(By.name("login")).click();
+
+// Wait for the home page to load
+try {
+    Thread.sleep(2000); // You may need to adjust the wait time based on your network speed
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+// Navigate to the profile page
+driver.findElement(By.id("userNavigationLabel")).click();
+driver.findElement(By.xpath("//span[contains(text(), 'Your Profile')]")).click();
+
+// Wait for the profile page to load
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+
+driver.findElement(By.xpath("//a[contains(@class, 'profilePicEditButton')]")).click();
+
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+
+driver.findElement(By.name("work_position")).sendKeys("Software Engineer");
+driver.findElement(By.name("education[0]")).sendKeys("Bachelor's Degree in Computer Science");
+driver.findElement(By.name("interests[0]")).sendKeys("Programming");
+driver.findElement(By.name("hobbies[0]")).sendKeys("Reading");
+
+driver.findElement(By.xpath("//button[contains(text(), 'Save Changes')]")).click();
+
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+WebElement jobTitle = driver.findElement(By.xpath("//span[contains(text(), 'Software Engineer')]"));
+WebElement education = driver.findElement(By.xpath("//span[contains(text(), 'Bachelor\'s Degree in Computer Science')]"));
+WebElement interests = driver.findElement(By.xpath("//span[contains(text(), 'Programming')]"));
+WebElement hobbies = driver.findElement(By.xpath("//span[contains(text(), 'Reading')]"));
+
+if (jobTitle.isDisplayed() && education.isDisplayed() && interests.isDisplayed() && hobbies.isDisplayed()) {
+    System.out.println("Bio information test passed!");
+} else {
+    System.out.println("Bio information test failed!");
+}
+
+
+
+    }
+
+}
+-----------------------------------
+4.
+package seleniumapp;
+
+import java.net.URL;
+
+import java.net.MalformedURLException;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebElement;
+
+public class App
+
+{
+
+    public static void main( String[] args ) throws MalformedURLException
+
+    {
+
+     
+
+        RemoteWebDriver driver;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+
+        driver.get("https://www.flipkart.com");
+        driver.findElement(By.xpath("//input[@name='q']"))
+                .sendKeys("Product Name");
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+        // Click on the first search result
+        driver.findElement(By.cssSelector("a[href*='product-link']")).click();
+
+        // Add the product to the cart
+        driver.findElement(By.xpath("//button[text()='Add to Cart']")).click();
+
+        // Wait for the cart to update
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Assert that the cart contains the added product
+        WebElement cartItem = driver.findElement(By.xpath("//a[contains(@href,'cart')]"));
+        if (cartItem.isDisplayed()) {
+            System.out.println("Add to cart test passed!");
+        } else {
+            System.out.println("Add to cart test failed!");
+        }
+   
+
+       
+        driver.get("https://www.flipkart.com/cart");
+
+   
+        WebElement productName = driver.findElement(By.xpath("//a[contains(@href,'product-name')]"));
+        WebElement quantity = driver.findElement(By.xpath("//div[@data-id='quantity']"));
+        WebElement price = driver.findElement(By.xpath("//div[contains(@class,'_3aQU3C')]"));
+        WebElement total = driver.findElement(By.xpath("//span[contains(@class,'_2xK2vM')]"));
+
+        if (productName.isDisplayed() && quantity.isDisplayed() && price.isDisplayed() && total.isDisplayed()) {
+            System.out.println("View cart test passed!");
+        } else {
+            System.out.println("View cart test failed!");
+        }
+
+
+        driver.get("https://www.flipkart.com/cart");
+        driver.findElement(By.xpath("//div[contains(@data-id,'remove-item')]//button[text()='Remove']"))
+                .click();
+
+        // Wait for the cart to update
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Assert that the cart no longer contains the removed product
+        WebElement cartItem = driver.findElement(By.xpath("//a[contains(@href,'product-name')]"));
+        if (!cartItem.isDisplayed()) {
+            System.out.println("Remove from cart test passed!");
+        } else {
+            System.out.println("Remove from cart test failed!");
+        }
+
+    }
+
+}
+-----------------------------
+5.
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class App {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://hospital.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Hospital Management System")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@12345");
+        loginButton.click();
+
+
+        WebElement addDoctorButton = driver.findElement(By.xpath("//button[@id='add-doctor']"));
+        addDoctorButton.click();
+
+
+        WebElement addSpecializationButton = driver.findElement(By.xpath("//button[@id='add-specialization']"));
+        addSpecializationButton.click();
+
+
+        WebElement deleteDoctorButton = driver.findElement(By.xpath("//button[@id='delete-doctor']"));
+        deleteDoctorButton.click();
+
+
+        WebElement editDoctorButton = driver.findElement(By.xpath("//button[@id='edit-doctor']"));
+        editDoctorButton.click();
+
+
+        WebElement patientDetails = driver.findElement(By.xpath("//div[@class='patient-details']"));
+        System.out.println("Patient Details: " + patientDetails.getText());
+
+        WebElement appointmentHistoryButton = driver.findElement(By.xpath("//button[@id='appointment-history']"));
+        appointmentHistoryButton.click();
+
+
+        WebElement fromDateInput = driver.findElement(By.xpath("//input[@id='from-date']"));
+        WebElement toDateInput = driver.findElement(By.xpath("//input[@id='to-date']"));
+        WebElement viewReportsButton = driver.findElement(By.xpath("//button[@id='view-reports']"));
+
+        fromDateInput.sendKeys("2023-01-01");
+        toDateInput.sendKeys("2023-06-01");
+        viewReportsButton.click();
+
+
+        WebElement patientSearchInput = driver.findElement(By.xpath("//input[@id='patient-search']"));
+        WebElement searchButton = driver.findElement(By.xpath("//button[@id='search-button']"));
+
+        patientSearchInput.sendKeys("John Doe");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[@id='logout']"));
+        logoutButton.click();
+
+
+        driver.get("https://hospital.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Hospital Management System")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@12345");
+        loginButton.click();
+
+
+        WebElement addDoctorButton = driver.findElement(By.xpath("//button[@id='add-doctor']"));
+        addDoctorButton.click();
+
+
+        WebElement addSpecializationButton = driver.findElement(By.xpath("//button[@id='add-specialization']"));
+        addSpecializationButton.click();
+
+
+        WebElement deleteDoctorButton = driver.findElement(By.xpath("//button[@id='delete-doctor']"));
+        deleteDoctorButton.click();
+
+
+        WebElement editDoctorButton = driver.findElement(By.xpath("//button[@id='edit-doctor']"));
+        editDoctorButton.click();
+
+
+        WebElement patientDetails = driver.findElement(By.xpath("//div[@class='patient-details']"));
+        System.out.println("Patient Details: " + patientDetails.getText());
+
+        WebElement appointmentHistoryButton = driver.findElement(By.xpath("//button[@id='appointment-history']"));
+        appointmentHistoryButton.click();
+
+
+        WebElement fromDateInput = driver.findElement(By.xpath("//input[@id='from-date']"));
+        WebElement toDateInput = driver.findElement(By.xpath("//input[@id='to-date']"));
+        WebElement viewReportsButton = driver.findElement(By.xpath("//button[@id='view-reports']"));
+
+        fromDateInput.sendKeys("2023-01-01");
+        toDateInput.sendKeys("2023-06-01");
+        viewReportsButton.click();
+
+
+        WebElement patientSearchInput = driver.findElement(By.xpath("//input[@id='patient-search']"));
+        WebElement searchButton = driver.findElement(By.xpath("//button[@id='search-button']"));
+
+        patientSearchInput.sendKeys("John Doe");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[@id='logout']"));
+        logoutButton.click();
+
+
+        driver.quit();
+    }
+}
+----------------------------------------
+6.
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class App {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://teacherrecords.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Teacher Record Management")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@123");
+        loginButton.click();
+
+
+        WebElement totalSubjects = driver.findElement(By.xpath("//span[@id='total-subjects']"));
+        System.out.println("Total Subjects: " + totalSubjects.getText());
+
+        WebElement totalTeachers = driver.findElement(By.xpath("//span[@id='total-teachers']"));
+        System.out.println("Total Registered Teachers: " + totalTeachers.getText());
+
+        WebElement teachersNotPublic = driver.findElement(By.xpath("//span[@id='teachers-not-public']"));
+        System.out.println("Registered Teachers (Profile Not Public): " + teachersNotPublic.getText());
+
+        WebElement teachersPublic = driver.findElement(By.xpath("//span[@id='teachers-public']"));
+        System.out.println("Registered Teachers (Profile Public): " + teachersPublic.getText());
+
+        WebElement addSubjectButton = driver.findElement(By.xpath("//button[@id='add-subject']"));
+        addSubjectButton.click();
+
+
+        WebElement editSubjectButton = driver.findElement(By.xpath("//button[@id='edit-subject']"));
+        editSubjectButton.click();
+
+
+        WebElement deleteSubjectButton = driver.findElement(By.xpath("//button[@id='delete-subject']"));
+        deleteSubjectButton.click();
+
+
+        WebElement addTeacherButton = driver.findElement(By.xpath("//button[@id='add-teacher']"));
+        addTeacherButton.click();
+
+
+        WebElement editTeacherButton = driver.findElement(By.xpath("//button[@id='edit-teacher']"));
+        editTeacherButton.click();
+
+
+        WebElement deleteTeacherButton = driver.findElement(By.xpath("//button[@id='delete-teacher']"));
+        deleteTeacherButton.click();
+
+
+        WebElement viewQueryButton = driver.findElement(By.xpath("//button[@id='view-query']"));
+        viewQueryButton.click();
+
+
+        WebElement searchInput = driver.findElement(By.id("search-input"));
+        WebElement searchButton = driver.findElement(By.id("search-button"));
+
+        searchInput.sendKeys("Math");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[text()='Logout']"));
+        logoutButton.click();
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://teacherrecords.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Teacher Record Management")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@123");
+        loginButton.click();
+
+
+        WebElement totalSubjects = driver.findElement(By.xpath("//span[@id='total-subjects']"));
+        System.out.println("Total Subjects: " + totalSubjects.getText());
+
+        WebElement totalTeachers = driver.findElement(By.xpath("//span[@id='total-teachers']"));
+        System.out.println("Total Registered Teachers: " + totalTeachers.getText());
+
+        WebElement teachersNotPublic = driver.findElement(By.xpath("//span[@id='teachers-not-public']"));
+        System.out.println("Registered Teachers (Profile Not Public): " + teachersNotPublic.getText());
+
+        WebElement teachersPublic = driver.findElement(By.xpath("//span[@id='teachers-public']"));
+        System.out.println("Registered Teachers (Profile Public): " + teachersPublic.getText());
+
+        WebElement addSubjectButton = driver.findElement(By.xpath("//button[@id='add-subject']"));
+        addSubjectButton.click();
+
+
+        WebElement editSubjectButton = driver.findElement(By.xpath("//button[@id='edit-subject']"));
+        editSubjectButton.click();
+
+
+        WebElement deleteSubjectButton = driver.findElement(By.xpath("//button[@id='delete-subject']"));
+        deleteSubjectButton.click();
+
+
+        WebElement addTeacherButton = driver.findElement(By.xpath("//button[@id='add-teacher']"));
+        addTeacherButton.click();
+
+
+        WebElement editTeacherButton = driver.findElement(By.xpath("//button[@id='edit-teacher']"));
+        editTeacherButton.click();
+
+
+        WebElement deleteTeacherButton = driver.findElement(By.xpath("//button[@id='delete-teacher']"));
+        deleteTeacherButton.click();
+
+
+        WebElement viewQueryButton = driver.findElement(By.xpath("//button[@id='view-query']"));
+        viewQueryButton.click();
+
+
+        WebElement searchInput = driver.findElement(By.id("search-input"));
+        WebElement searchButton = driver.findElement(By.id("search-button"));
+
+        searchInput.sendKeys("Math");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[text()='Logout']"));
+        logoutButton.click();
+
+
+        driver.quit();
+    }
+}
+-------------------------------------------
+7.
+package selenium;
+
+import java.net.URL;
+
+import java.net.MalformedURLException;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebElement;
+
+public class App
+
+{
+
+    public static void main( String[] args ) throws MalformedURLException
+
+    {
+
+     
+
+        RemoteWebDriver driver;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+
+       
+        driver.navigate().to("https://www.facebook.com");
+        driver.manage().window().maximize();
+        driver.findElement(By.xpath("//*[@id='email']")).sendKeys("727821tucs124@skct.edu.in");
+        driver.findElement(By.xpath("//*[@id='pass']")).sendKeys("mathurk@0310");
+        driver.findElement(By.xpath("//*[@id='u_0_9_VA']")).click();
+
+       
+        driver.get("https://www.facebook.com");
+        driver.findElement(By.id("u_0_2")).click();
+        driver.findElement(By.name("firstname")).sendKeys("John");
+        driver.findElement(By.name("lastname")).sendKeys("Doe");
+        driver.findElement(By.name("reg_email__")).sendKeys("john.doe@example.com");
+        driver.findElement(By.name("reg_passwd__")).sendKeys("password123");
+
+
+        driver.get("https://www.facebook.com");
+        driver.findElement(By.id("u_0_2")).click();
+        driver.findElement(By.name("firstname")).sendKeys("Jane");
+        driver.findElement(By.name("lastname")).sendKeys("Smith");
+        driver.findElement(By.name("reg_email__")).sendKeys("jane.smith@example.com");
+
+        driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+        driver.findElement(By.id("pass")).sendKeys("your_password");
+        driver.findElement(By.name("login")).click();
+
+        try {
+            Thread.sleep(2000);
+        }
+         catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+       
+        WebElement postInputFiel;
+
+        WebElement createdPost = driver.findElement(By.xpath("//div[contains(text(), 'This is my test post!')]"));
+        if (createdPost.isDisplayed()) {
+            System.out.println("Post creation test passed!");
+        } else {
+            System.out.println("Post creation test failed!");
+        }
+
+driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+driver.findElement(By.id("pass")).sendKeys("your_password");
+driver.findElement(By.name("login")).click();
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+
+WebElement searchInputField = driver.findElement(By.xpath("//input[@aria-label='Search']"));
+searchInputField.sendKeys("John Doe");
+
+
+searchInputField.submit();
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+WebElement searchResult = driver.findElement(By.xpath("//a[contains(text(), 'John Doe')]"));
+if (searchResult.isDisplayed()) {
+    System.out.println("User search test passed!");
+} else {
+    System.out.println("User search test failed!");
+}
+
+
+
+driver.get("https://www.facebook.com");
+driver.findElement(By.id("email")).sendKeys("your_email@example.com");
+driver.findElement(By.id("pass")).sendKeys("your_password");
+driver.findElement(By.name("login")).click();
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+driver.findElement(By.id("userNavigationLabel")).click();
+driver.findElement(By.xpath("//span[contains(text(), 'Your Profile')]")).click();
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+
+driver.findElement(By.xpath("//a[contains(@class, 'profilePicEditButton')]")).click();
+
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+
+driver.findElement(By.name("work_position")).sendKeys("Software Engineer");
+driver.findElement(By.name("education[0]")).sendKeys("Bachelor's Degree in Computer Science");
+driver.findElement(By.name("interests[0]")).sendKeys("Programming");
+driver.findElement(By.name("hobbies[0]")).sendKeys("Reading");
+
+driver.findElement(By.xpath("//button[contains(text(), 'Save Changes')]")).click();
+
+
+try {
+    Thread.sleep(2000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+
+WebElement jobTitle = driver.findElement(By.xpath("//span[contains(text(), 'Software Engineer')]"));
+WebElement education = driver.findElement(By.xpath("//span[contains(text(), 'Bachelor\'s Degree in Computer Science')]"));
+WebElement interests = driver.findElement(By.xpath("//span[contains(text(), 'Programming')]"));
+WebElement hobbies = driver.findElement(By.xpath("//span[contains(text(), 'Reading')]"));
+
+if (jobTitle.isDisplayed() && education.isDisplayed() && interests.isDisplayed() && hobbies.isDisplayed()) {
+    System.out.println("Bio information test passed!");
+} else {
+    System.out.println("Bio information test failed!");
+}
+    }
+}
+----------------------------------------
+8.
+package seleniumapp;
+
+import java.net.URL;
+
+import java.net.MalformedURLException;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebElement;
+
+public class App
+
+{
+
+    public static void main( String[] args ) throws MalformedURLException
+
+    {
+
+     
+
+        RemoteWebDriver driver;
+
+        ChromeOptions chromeOptions = new ChromeOptions();
+
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), chromeOptions);
+
+        driver.get("https://www.flipkart.com");
+        driver.findElement(By.xpath("//input[@name='q']"))
+                .sendKeys("Product Name");
+        driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+        driver.findElement(By.cssSelector("a[href*='product-link']")).click();
+
+        driver.findElement(By.xpath("//button[text()='Add to Cart']")).click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement cartItem = driver.findElement(By.xpath("//a[contains(@href,'cart')]"));
+        if (cartItem.isDisplayed()) {
+            System.out.println("Add to cart test passed!");
+        } else {
+            System.out.println("Add to cart test failed!");
+        }
+   
+
+       
+        driver.get("https://www.flipkart.com/cart");
+
+   
+        WebElement productName = driver.findElement(By.xpath("//a[contains(@href,'product-name')]"));
+        WebElement quantity = driver.findElement(By.xpath("//div[@data-id='quantity']"));
+        WebElement price = driver.findElement(By.xpath("//div[contains(@class,'_3aQU3C')]"));
+        WebElement total = driver.findElement(By.xpath("//span[contains(@class,'_2xK2vM')]"));
+
+        if (productName.isDisplayed() && quantity.isDisplayed() && price.isDisplayed() && total.isDisplayed()) {
+            System.out.println("View cart test passed!");
+        } else {
+            System.out.println("View cart test failed!");
+        }
+
+
+        driver.get("https://www.flipkart.com/cart");
+        driver.findElement(By.xpath("//div[contains(@data-id,'remove-item')]//button[text()='Remove']")).click();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        WebElement cartItem1 = driver.findElement(By.xpath("//a[contains(@href,'product-name')]"));
+        if (!cartItem1.isDisplayed()) {
+            System.out.println("Remove from cart test passed!");
+        } else {
+            System.out.println("Remove from cart test failed!");
+        }
+
+    }
+
+}
+-----------------------------------------
+9.
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class App {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://hospital.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Hospital Management System")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@12345");
+        loginButton.click();
+
+
+        WebElement addDoctorButton = driver.findElement(By.xpath("//button[@id='add-doctor']"));
+        addDoctorButton.click();
+
+
+        WebElement addSpecializationButton = driver.findElement(By.xpath("//button[@id='add-specialization']"));
+        addSpecializationButton.click();
+
+
+        WebElement deleteDoctorButton = driver.findElement(By.xpath("//button[@id='delete-doctor']"));
+        deleteDoctorButton.click();
+
+
+        WebElement editDoctorButton = driver.findElement(By.xpath("//button[@id='edit-doctor']"));
+        editDoctorButton.click();
+
+
+        WebElement patientDetails = driver.findElement(By.xpath("//div[@class='patient-details']"));
+        System.out.println("Patient Details: " + patientDetails.getText());
+
+        WebElement appointmentHistoryButton = driver.findElement(By.xpath("//button[@id='appointment-history']"));
+        appointmentHistoryButton.click();
+
+
+        WebElement fromDateInput = driver.findElement(By.xpath("//input[@id='from-date']"));
+        WebElement toDateInput = driver.findElement(By.xpath("//input[@id='to-date']"));
+        WebElement viewReportsButton = driver.findElement(By.xpath("//button[@id='view-reports']"));
+
+        fromDateInput.sendKeys("2023-01-01");
+        toDateInput.sendKeys("2023-06-01");
+        viewReportsButton.click();
+
+
+        WebElement patientSearchInput = driver.findElement(By.xpath("//input[@id='patient-search']"));
+        WebElement searchButton = driver.findElement(By.xpath("//button[@id='search-button']"));
+
+        patientSearchInput.sendKeys("John Doe");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[@id='logout']"));
+        logoutButton.click();
+
+
+        driver.get("https://hospital.neohire.io/");
+
+        String pageTitles = driver.getTitle();
+        System.out.println("Page Title: " + pageTitles);
+
+        if (pageTitle.equals("Hospital Management System")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput1 = driver.findElement(By.id("username"));
+        WebElement passwordInput1 = driver.findElement(By.id("password"));
+        WebElement loginButton1 = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput1.sendKeys("admin");
+        passwordInput1.sendKeys("Test@12345");
+        loginButton1.click();
+
+
+        WebElement addDoctorButton1 = driver.findElement(By.xpath("//button[@id='add-doctor']"));
+        addDoctorButton1.click();
+
+
+        WebElement addSpecializationButton1 = driver.findElement(By.xpath("//button[@id='add-specialization']"));
+        addSpecializationButton1.click();
+
+
+        WebElement deleteDoctorButton1 = driver.findElement(By.xpath("//button[@id='delete-doctor']"));
+        deleteDoctorButton1.click();
+
+
+        WebElement editDoctorButton1 = driver.findElement(By.xpath("//button[@id='edit-doctor']"));
+        editDoctorButton1.click();
+
+
+        WebElement patientDetails1 = driver.findElement(By.xpath("//div[@class='patient-details']"));
+        System.out.println("Patient Details: " + patientDetails1.getText());
+
+        WebElement appointmentHistoryButton1 = driver.findElement(By.xpath("//button[@id='appointment-history']"));
+        appointmentHistoryButton1.click();
+
+
+        WebElement fromDateInput1 = driver.findElement(By.xpath("//input[@id='from-date']"));
+        WebElement toDateInput1 = driver.findElement(By.xpath("//input[@id='to-date']"));
+        WebElement viewReportsButton1 = driver.findElement(By.xpath("//button[@id='view-reports']"));
+
+        fromDateInput1.sendKeys("2023-01-01");
+        toDateInput1.sendKeys("2023-06-01");
+        viewReportsButton1.click();
+
+
+        WebElement patientSearchInput1 = driver.findElement(By.xpath("//input[@id='patient-search']"));
+        WebElement searchButton1 = driver.findElement(By.xpath("//button[@id='search-button']"));
+
+        patientSearchInput1.sendKeys("John Doe");
+        searchButton1.click();
+
+
+        WebElement logoutButton1 = driver.findElement(By.xpath("//button[@id='logout']"));
+        logoutButton1.click();
+
+
+        driver.quit();
+}
+}
+------------------------------------------------------
+10.
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+public class App {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        WebDriver driver = new ChromeDriver(options);
+
+        driver.get("https://teacherrecords.neohire.io/");
+
+        String pageTitle = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle);
+
+        if (pageTitle.equals("Teacher Record Management")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput = driver.findElement(By.id("username"));
+        WebElement passwordInput = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput.sendKeys("admin");
+        passwordInput.sendKeys("Test@123");
+        loginButton.click();
+
+
+        WebElement totalSubjects = driver.findElement(By.xpath("//span[@id='total-subjects']"));
+        System.out.println("Total Subjects: " + totalSubjects.getText());
+
+        WebElement totalTeachers = driver.findElement(By.xpath("//span[@id='total-teachers']"));
+        System.out.println("Total Registered Teachers: " + totalTeachers.getText());
+
+        WebElement teachersNotPublic = driver.findElement(By.xpath("//span[@id='teachers-not-public']"));
+        System.out.println("Registered Teachers (Profile Not Public): " + teachersNotPublic.getText());
+
+        WebElement teachersPublic = driver.findElement(By.xpath("//span[@id='teachers-public']"));
+        System.out.println("Registered Teachers (Profile Public): " + teachersPublic.getText());
+
+        WebElement addSubjectButton = driver.findElement(By.xpath("//button[@id='add-subject']"));
+        addSubjectButton.click();
+
+
+        WebElement editSubjectButton = driver.findElement(By.xpath("//button[@id='edit-subject']"));
+        editSubjectButton.click();
+
+
+        WebElement deleteSubjectButton = driver.findElement(By.xpath("//button[@id='delete-subject']"));
+        deleteSubjectButton.click();
+
+
+        WebElement addTeacherButton = driver.findElement(By.xpath("//button[@id='add-teacher']"));
+        addTeacherButton.click();
+
+
+        WebElement editTeacherButton = driver.findElement(By.xpath("//button[@id='edit-teacher']"));
+        editTeacherButton.click();
+
+
+        WebElement deleteTeacherButton = driver.findElement(By.xpath("//button[@id='delete-teacher']"));
+        deleteTeacherButton.click();
+
+
+        WebElement viewQueryButton = driver.findElement(By.xpath("//button[@id='view-query']"));
+        viewQueryButton.click();
+
+
+        WebElement searchInput = driver.findElement(By.id("search-input"));
+        WebElement searchButton = driver.findElement(By.id("search-button"));
+
+        searchInput.sendKeys("Math");
+        searchButton.click();
+
+
+        WebElement logoutButton = driver.findElement(By.xpath("//button[text()='Logout']"));
+        logoutButton.click();
+
+        WebDriver driver1 = new ChromeDriver(options);
+
+        driver1.get("https://teacherrecords.neohire.io/");
+
+        String pageTitle1 = driver.getTitle();
+        System.out.println("Page Title: " + pageTitle1);
+
+        if (pageTitle1.equals("Teacher Record Management")) {
+            System.out.println("Page title validation passed");
+        } else {
+            System.out.println("Page title validation failed");
+        }
+
+        WebElement usernameInput1 = driver.findElement(By.id("username"));
+        WebElement passwordInput1 = driver.findElement(By.id("password"));
+        WebElement loginButton1 = driver.findElement(By.xpath("//button[@type='submit']"));
+
+        usernameInput1.sendKeys("admin");
+        passwordInput1.sendKeys("Test@123");
+        loginButton1.click();
+
+
+        WebElement totalSubjects1 = driver.findElement(By.xpath("//span[@id='total-subjects']"));
+        System.out.println("Total Subjects: " + totalSubjects1.getText());
+
+        WebElement totalTeachers1 = driver.findElement(By.xpath("//span[@id='total-teachers']"));
+        System.out.println("Total Registered Teachers: " + totalTeachers1.getText());
+
+        WebElement teachersNotPublic1 = driver.findElement(By.xpath("//span[@id='teachers-not-public']"));
+        System.out.println("Registered Teachers (Profile Not Public): " + teachersNotPublic1.getText());
+
+        WebElement teachersPublic1 = driver.findElement(By.xpath("//span[@id='teachers-public']"));
+        System.out.println("Registered Teachers (Profile Public): " + teachersPublic1.getText());
+
+        WebElement addSubjectButton1 = driver.findElement(By.xpath("//button[@id='add-subject']"));
+        addSubjectButton1.click();
+
+
+        WebElement editSubjectButton1 = driver.findElement(By.xpath("//button[@id='edit-subject']"));
+        editSubjectButton1.click();
+
+
+        WebElement deleteSubjectButton1 = driver.findElement(By.xpath("//button[@id='delete-subject']"));
+        deleteSubjectButton1.click();
+
+
+        WebElement addTeacherButton1 = driver.findElement(By.xpath("//button[@id='add-teacher']"));
+        addTeacherButton1.click();
+
+
+        WebElement editTeacherButton1 = driver.findElement(By.xpath("//button[@id='edit-teacher']"));
+        editTeacherButton1.click();
+
+
+        WebElement deleteTeacherButton1 = driver.findElement(By.xpath("//button[@id='delete-teacher']"));
+        deleteTeacherButton1.click();
+
+
+        WebElement viewQueryButton1 = driver.findElement(By.xpath("//button[@id='view-query']"));
+        viewQueryButton1.click();
+
+
+        WebElement searchInput1 = driver.findElement(By.id("search-input"));
+        WebElement searchButton1 = driver.findElement(By.id("search-button"));
+
+        searchInput1.sendKeys("Math");
+        searchButton1.click();
+
+
+        WebElement logoutButton1 = driver.findElement(By.xpath("//button[text()='Logout']"));
+        logoutButton1.click();
+
+
+        driver.quit();
+    }
+}
