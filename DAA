@@ -1,0 +1,916 @@
+
+2021_25_IRC_Deep Dive into Algorithms ADSA_Math_Algo_Primary_Focus
+Attempt : 1 Total Mark : 50
+Marks Obtained : 50
+
+Section 1 : Coding
+
+1.	Problem statement Sieve of Eratosthenes
+Given a number n, print all primes smaller than or equal to n.
+
+Answer
+/ You are using Java import java.util.*; class main
+{
+static boolean isPrime(int n)
+{
+if(n<=1) return false;
+for(int i=2;i<n;i++) if(n%i==0)
+return false; return true;
+}
+static void printPrime(int n)
+{ 
+for(int i=2;i<=n;i++)
+{
+if(isPrime(i)) System.out.print(i+" ");
+}
+}
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n=sc.nextInt();
+printPrime(n);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/10
+2.	Problem statement Sieve of Sundaram
+Given a number n, print all primes smaller than or equal to n.
+
+Answer
+import java.util.*; class main
+{
+static boolean isPrime(int n)
+{
+if(n<=1) return false;
+for(int i=2;i<n;i++) if(n%i==0)
+return false; return true;
+}
+static void printPrime(int n)
+{
+for(int i=2;i<=n;i++)
+{
+if(isPrime(i)) System.out.print(i+" ");
+ 
+}
+}
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n=sc.nextInt();
+printPrime(n);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/10
+
+3.	Problem statement Toggle the Bulbs
+There are n bulbs that are initially off. You first turn on all the bulbs, then you turn off every second bulb.
+On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith round, you toggle every i bulb. For the nth round, you only toggle the last bulb.
+Return the number of bulbs that are on after n rounds.
+
+Answer
+import java.util.Scanner ;
+
+class Main
+{
+public static void main(String args[])
+{
+Scanner sc = new Scanner(System.in) ; int n = sc.nextInt() ; System.out.println((int)Math.sqrt(n)) ;
+}
+}
+
+Status : Correct	Marks : 10/10
+
+4.	Problem statement
+ 
+Prime number
+Check whether the given number(N) is Prime or not.
+
+Answer
+import java.util.*; class Main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n=sc.nextInt();
+boolean flag=false; for(int i=2;i<n/2;i++)
+{
+if(n%i==0)
+{
+flag=true;
+}
+}
+if(!flag)
+{
+System.out.println("Prime");
+}
+else
+{
+System.out.println("Not Prime");
+}
+}
+}
+
+Status : Correct	Marks : 10/10
+
+5.	Problem statement :
+Euclidean Algorithm
+Write a program to compute the GCD of 2 numbers using recursion(Euclidean Algorithm).
+
+Answer
+ 
+import java.util.*; class A
+{
+int display(int n1,int n2)
+{
+if(n2!=0)
+{
+return display(n2,n1%n2);
+}
+else
+{
+return n1;
+}
+}
+}
+class Main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int a=s.nextInt();
+int b=s.nextInt();
+A ob=new A();
+int res=ob.display(a,b);
+System.out.print("G.C.D of "+a+" and "+b+" is "+res);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/10
+Sri Krishna College of Technology
+
+Name :Bavadharini M	Email :22lece.bavadharini.m@skct.edu.in Roll no:22lec002		Phone :9600476346 Branch :Sri Krishna College of Technology		Department :ECE Batch :2021-25				Degree :BE-ECE
+
+2021_25_IRC_Deep Dive into Algorithms Recursion_Primary_Focus
+Attempt : 1 Total Mark : 50
+Marks Obtained : 50
+
+Section 1 : Coding
+
+1.	Problem statement :
+Factorial
+Write a program to compute the factorial of a number using recursion.
+
+Answer
+import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int n=s.nextInt();
+System.out.println("The factorial of "+n+" is "+fact(n));
+}
+static int fact(int n)
+{
+if(n!=0)
+{
+return (n*fact(n-1));
+}
+ 
+else
+{
+return 1;
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/10
+
+2.	Problem statement :
+Naughty Kid in a Staircase
+A naughty kid climbing stairs with N steps. From any step, he can take 1 step or 2 steps at a time. Find the total distinct ways of reaching.
+
+Answer
+import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int n=s.nextInt(); System.out.println(distinct(n));
+}
+static int distinct(int n)
+{
+if(n==0)
+{
+return 1;
+}
+else if(n<0) return 0; else
+return distinct(n-1)+distinct(n-2);
+}
+}
+
+Status : Correct	Marks : 10/10
+ 
+3.	Problem statement :
+Robot Maneuvering
+The problem is to count all the possible paths from the top left to the bottom right of an MxN matrix with the constraints that from each cell you can either move only to the right or down.
+
+Answer
+import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int m=s.nextInt();
+int n=s.nextInt(); System.out.println(matrix(m,n));
+}
+static int matrix(int m,int n)
+{
+if(n==1 || m==1) return 1;
+else
+return matrix(m-1,n)+matrix(m,n-1);
+}
+}
+
+Status : Correct	Marks : 10/10
+
+4.	Problem statement :
+Compute a^n
+Write a program to compute a^n (a power n) using recursion.
+
+Answer
+import java.util.*; class Main
+{
+public static void main(String args[])
+ 
+{
+Scanner s = new Scanner(System.in); int n = s.nextInt();
+int p = s.nextInt();
+System.out.println("The value of "+n+" power "+p+" is "+power(n,p));
+}
+public static int power(int n,int p)
+{
+if(p!=0)
+{
+return (n*power(n,p-1));
+}
+else
+{
+return 1;
+}
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/1
+5.	Problem statement :
+Number of digits
+Write a program to find the number of digits in a number using recursion.
+
+Answer
+import java.util.*; class Main
+{
+static int count=0;
+public static void main(String args[])
+{
+Scanner s = new Scanner(System.in); int n = s.nextInt();
+System.out.println("The number of digits in "+n+" is "+digits(n));
+
+}
+public static int digits(int num)
+{
+ 
+if(num>0)
+{
+count++;
+return digits(num/10);
+}
+else
+{
+return count;
+}
+
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Status : Correct	Marks : 10/10
+Sri Krishna College of Technology
+
+Name :Bavadharini M	Email :22lece.bavadharini.m@skct.edu.in Roll no:22lec002		Phone :9600476346 Branch :Sri Krishna College of Technology		Department :ECE Batch :2021-25				Degree :BE-ECE
+
+2021_25_IRC_Deep Dive into Algorithms ADSA_Searching_Sorting_Algo_Primary_Focus
+Attempt : 1 Total Mark : 50
+Marks Obtained : 50
+
+Section 1 : Coding
+
+1.	Problem Statement Linear Search
+Find the value in the given array. If found print "Yes" else "No".
+
+Answer
+/ You are using Java import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n =sc.nextInt();
+int arr[]=new int[n]; for(int i=0;i<n;i++)
+{
+arr[i]=sc.nextInt();
+}
+int a=sc.nextInt(); for(int i=0;i<n;i++)
+ 
+{
+if(arr[i]==a)
+{
+System.out.println("Yes"); System.exit(0);
+}
+}
+System.out.println("No");
+}
+}
+
+Status : Correct	Marks : 10/10
+
+2.	Problem Statement Bubble Sort
+Nandini asked her students to arrange a set of numbers in ascending order. She taught bubble sorting in the classroom which compares the adjacent elements and sorts them. She asked the students to arrange them using the BUBBLE SORT algorithm.
+Example Input
+5
+1 2 4 5 3
+Output 1 2 3 4 5
+Explanation 1 2 4 5 3
+1 2 4 3 5
+1 2 3 4 5
+
+Answer
+/ You are using Java import java.util.*;
+ 
+class main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n=sc.nextInt();
+int arr[]=new int[n]; for(int i=0;i<n;i++)
+{
+arr[i]=sc.nextInt();
+}
+int temp;
+for(int i=0;i<n;i++)
+{
+for(int j=i+1;j<n;j++)
+{
+if(arr[i]>arr[j])
+{
+temp=arr[i]; arr[i]=arr[j]; arr[j]=temp;
+}
+}
+}
+for(int i=0;i<n;i++)
+{
+System.out.print(arr[i]+" ");
+}
+}
+}
+
+Status : Correct	Marks : 10/10
+
+3.	Problem statement Binary Search
+Given a sorted array, the problem is to find the occurrence of an element X in the given array. Start the array index from 0. If element X is not present in the array, print "NO OCCURRENCES".
+ 
+Answer
+import java.util.*; class Main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int n=s.nextInt();
+int a[]=new int[n]; for(int i=0;i<n;i++)
+{
+a[i]=s.nextInt();
+}
+int k=s.nextInt(); for(int i=0;i<n;i++)
+{
+if(k==a[i])
+{
+System.out.print(i); System.exit(0);
+}
+}
+System.out.print("NO OCCURRENCES");
+}
+}
+
+Status : Correct	Marks : 10/10
+
+4.	Problem Statement Merge Sort
+Write a program to implement merge sort algorithm. Example
+Input 5
+2 4 1 10 23
+Output
+ 
+1 2 4 10 23
+Explanation
+Sort array in an ascending order using divide and conquer method.
+
+Answer
+import java.util.*; class Main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int n=s.nextInt();
+int a[]=new int[n]; for(int i=0;i<n;i++)
+{
+a[i]=s.nextInt();
+}
+int t;
+for(int i=0;i<n-1;i++)
+{
+for(int j=1+i;j<n;j++)
+{
+if(a[i]>a[j])
+{
+t=a[i]; a[i]=a[j]; a[j]=t;
+}
+}
+}
+for(int i=0;i<n;i++)
+{
+System.out.print(a[i]+" ");
+}
+}
+}
+
+Status : Correct	Marks : 10/10
+ 
+5.	Problem Statement Selection Sort
+Its the first day for the students at school and the students enter the class and get seated at random places without any height order. So the students who are short and sitting back are not able to see the board since they sit behind taller students.
+Understanding this difficulty, the teacher decides to make the students sit in height order.
+Suppose there are n students in the class. She makes all the students to stand in a line and compares the first student's height with the remaining (n-1) students. If the first student's height is greater than the ith student, then the taller person goes to the ith place and ith student comes to the first place. Again the new first student's height is compared with remaining students and if his height is greater than ith student the first student goes to ith place and ith place student comes to first place and this goes on till the end.
+This process continues for all the students. Finally the students are in height order.
+Write a program to perform selection sort on an array of n elements. Example
+Input 6
+480
+160
+250
+130
+80
+50
+Output
+Student's height order before sorting:
+ 
+480 160 250 130 80 50
+Height order of students after iteration 1 50 480 250 160 130 80
+Height order of students after iteration 2 50 80 480 250 160 130
+Height order of students after iteration 3 50 80 130 480 250 160
+Height order of students after iteration 4 50 80 130 160 480 250
+Height order of students after iteration 5 50 80 130 160 250 480
+After final comparison of all students , the height order becomes: 50 80 130 160 250 480
+Explanation
+In first iteration 480 compared with 160 , 160< 480 so swap the value. 160
+480 250 130 80 50.Then 160 compared with 250 (250 >160) so no
+changes. Then 160 compared with 130 (130 <160 ) so swap the value. 130
+480 250 160 80 50. Same process repeated until all the values are
+compared in the list. So final value for iteration 1 is 50 480 250 160 130 80 .Repeat the process for remaining iteration until all values gets sorted.
+
+Answer
+import java.util.*; class Main
+{
+public static void main(String args[])
+{
+Scanner s=new Scanner(System.in); int n=s.nextInt();
+int a[]=new int[n];
+System.out.println("Student's height order before sorting:"); for(int i=0;i<n;i++)
+ 
+{
+a[i]=s.nextInt(); System.out.print(a[i]+" ");
+}
+System.out.println(); int t;
+for(int i=0;i<n;i++)
+{
+if(i!=n-1) System.out.println("Height order of students after iteration "+(i
++1)+" ");
+else System.out.println("After final comparison of all students , the height order becomes:");
+for(int j=i+1;j<n;j++)
+{
+if(a[i]>a[j])
+{
+t=a[i]; a[i]=a[j]; a[j]=t;
+}
+}
+for(int k=0;k<n;k++)
+{
+System.out.print(a[k]+" ");
+}
+System.out.println();
+}
+}
+}
+
+Status : Correct	Marks : 10/10
+Sri Krishna College of Technology
+
+Name :Bavadharini M	Email :22lece.bavadharini.m@skct.edu.in Roll no:22lec002		Phone :9600476346 Branch :Sri Krishna College of Technology		Department :ECE Batch :2021-25				Degree :BE-ECE
+
+2021_25_IRC_Deep Dive into Algorithms ADSA_String_Algo_Primary_Focus
+Attempt : 1 Total Mark : 30
+Marks Obtained : 30
+
+Section 1 : Coding
+
+1.	Problem Statement Naive Algorithm
+Find the occurrence of SubString in the main String. Example
+Input captain cap Output
+Found at index 0
+
+Answer
+import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in);
+ 
+String s=sc.nextLine(); String t=sc.nextLine(); int slen=s.length();
+int tlen=t.length();
+for(int i=0;i<slen-tlen+1;i++)
+{
+if(t.equals(s.substring(i,i+tlen)))
+{
+System.out.print("Found at "+i); System.exit(0);
+}
+}
+System.out.print("Not Found");
+}
+}
+
+Status : Correct	Marks : 10/10
+
+2.	Problem Statement KMP Algorithm
+Find the occurrence of SubString in the main String using KMP Algorithm.
+
+Answer
+/ You are using Java import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); String s=sc.nextLine();
+String t=sc.nextLine(); int slen=s.length();
+int tlen=t.length(); int c=0;
+for(int i=0;i<slen-tlen+1;i++)
+{
+if(t.equals(s.substring(i,i+tlen)))
+{
+ 
+System.out.println("Found at "+i); c=c+1;
+}
+}
+if(c==0)
+System.out.println("Not Found");
+}
+}
+
+Status : Correct	Marks : 10/10
+
+3.	Problem Statement Rail fence Algorithm
+Write a program for the String encryption and Decryption using Rail Fence Algorithm.
+
+Answer
+/ You are using Java import java.util.Scanner ;
+
+class Main
+{
+static String Encryption(String plainText, int depth)
+{
+if(depth<2) return plainText ; int r = depth ;
+int c = plainText.length() ; char mat[][] = new char[r][c] ; for(int i = 0 ; i < r ; i++)
+{
+for(int j = 0 ; j < c ; j++)
+{
+mat[i][j] = '*' ;
+}
+}
+boolean dir_down = false ; int row = 0 , col = 0 ;
+for (int i = 0 ; i < c ; i++)
+ 
+{
+if (row == 0 || row == r-1) dir_down = !dir_down ;
+mat[row][col++] = plainText.charAt(i) ; if(dir_down)
+row++ ; else row-- ;
+}
+char result[] = new char[c] ; int k = 0 ;
+for (int i=0; i < r ; i++)
+{
+for (int j=0; j < c ; j++)
+{
+if (mat[i][j] != '*')
+result[k++] = mat[i][j] ;
+}
+}
+String encryptedString = new String (result) ; return encryptedString ;
+}
+static String Decryption(String cipherText, int depth)
+{
+if(depth<2)
+return cipherText ; int r = depth ;
+int c = cipherText.length() ; char mat[][] = new char[r][c] ; for(int i = 0 ; i < r ; i++)
+{
+for(int j = 0 ; j < c ; j++)
+{
+mat[i][j] = '*' ;
+}
+}
+boolean dir_down = false ; int row = 0 , col = 0 ;
+for (int i = 0 ; i < c ; i++)
+{
+if (row == 0 || row == r-1) dir_down = !dir_down ;
+ 
+mat[row][col++] = '$' ; if(dir_down)
+row++ ; else row-- ;
+}
+int k = 0 ;
+for (int i = 0 ; i < r ; i++)
+{
+for (int j = 0 ; j < c ; j++)
+{
+if (mat[i][j] == '$')
+mat[i][j] = cipherText.charAt(k++) ;
+}
+}
+char result[] = new char[c] ; k = 0 ;
+dir_down = false ; row = col = 0 ;
+for (int i = 0 ; i < c ; i++)
+{
+if (row == 0 || row == r-1) dir_down = !dir_down ; result[k++] = mat[row][col++] ; if(dir_down)
+row++ ; else row-- ;
+}
+String decryptedString = new String(result) ; return decryptedString ;
+}
+public static void main(String args[])
+{
+Scanner sc = new Scanner(System.in) ; int depth ;
+String plainText,cipherText,decryptedText ; plainText = sc.next() ;
+depth = sc.nextInt() ;
+cipherText = Encryption(plainText, depth) ; System.out.println("Encrypted text is: " + cipherText) ; decryptedText = Decryption(cipherText, depth);
+ 
+System.out.println("Decrypted text is: " + decryptedText) ;
+}
+}
+
+Status : Correct	Marks : 10/10
+Sri Krishna College of Technology
+
+Name :Bavadharini M	Email :22lece.bavadharini.m@skct.edu.in Roll no:22lec002		Phone :9600476346 Branch :Sri Krishna College of Technology		Department :ECE Batch :2021-25				Degree :BE-ECE
+
+2021_25_IRC_Deep Dive into Algorithms IRC_DDA_CIA_1_Nov'21
+Attempt : 1 Total Mark : 50
+Marks Obtained : 38
+
+Section 1 : MCQ
+
+1.	Which is the efficient algorithm for string matching?
+
+Answer
+Brute force approach
+Status : Wrong	Marks : 0/2
+
+2.	Which of the following sorting algorithms have a time complexity of n2?
+
+Answer
+Insertion sort
+Status : Wrong	Marks : 0/2
+
+3.	What is the time complexity of the Heap Sort Algorithm?
+
+Answer
+O(N*N)
+Status : Wrong	Marks : 0/2
+ 
+4.	What is the Space complexity of the Heap Sort Algorithm?
+
+Answer
+O(N)
+Status : Wrong	Marks : 0/2
+
+5.	Consider a number 10, choose the primes smaller than 10 from the given list.
+
+Answer
+2,3,5,7
+Status : Correct	Marks : 2/2
+
+6.	What is the Space complexity of the Sieve of Sundaram?
+
+Answer
+O(N/2)
+Status : Correct	Marks : 2/2
+
+7.	What is the Space complexity of the Quick Sort Algorithm?
+
+Answer
+O(N)
+Status : Wrong	Marks : 0/2
+
+8.	Which of the following shows the correct relationship among some of the more common computing times on algorithms?
+
+Answer
+O(log n) &lt; O(n) &lt; O( n* log n) &lt; O(n2) &lt; O(2n)
+Status : Correct	Marks : 2/2
+ 
+9.	Which of the following recurrence relations can be used to find the nth fibonacci number?
+
+Answer
+F(n) = F(n – 1)
+Status : Wrong	Marks : 0/2
+
+
+Section 2 : Coding
+
+1.	Problem statement Toggle the Bulbs
+There are n bulbs that are initially off. You first turn on all the bulbs, then you turn off every second bulb.
+On the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith round, you toggle every ith bulb. For the nth round, you only toggle the last bulb.
+Return the number of bulbs that are on after n rounds.
+
+Answer
+/ You are using Java import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner sc=new Scanner(System.in); int n=sc.nextInt(); System.out.print((int)Math.sqrt(n));
+}
+}
+
+Status : Correct	Marks : 16/16
+
+2.	Problem statement : Sum of digits
+ 
+Pranav is poor in Mathematics. So, to improve his level his tutor gave him a task by asking him if he calculates the given digits like 1237 he has to get the final result as 13. Help him in getting the final output using Recursion.
+
+Answer
+import java.util.*; class main
+{
+public static void main(String args[])
+{
+Scanner sc = new Scanner(System.in); int n=sc.nextInt();
+int number=n; int sum=0;
+while(number> 0)
+{
+int digit;
+digit = number% 10; sum = sum + digit; number= number / 10;
+}
+System.out.println("The sum of digits in "+n+" is "+sum);
+}
+}
+
+Status : Correct	Marks : 16/16
+
